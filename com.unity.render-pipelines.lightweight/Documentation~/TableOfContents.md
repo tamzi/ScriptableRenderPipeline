@@ -12,3 +12,5 @@
 
 * [Upgrading shaders](upgrading-your-shaders.md)
 
+* [LWRP Asset](lwrp-asset.md)
+
