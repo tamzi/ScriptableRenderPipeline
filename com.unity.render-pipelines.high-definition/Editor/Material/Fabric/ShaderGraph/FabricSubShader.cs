@@ -478,7 +478,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             if (sourceAssetDependencyPaths != null)
             {
                 // FabricSubShader.cs
-                sourceAssetDependencyPaths.Add(AssetDatabase.GUIDToAssetPath("bac1a9627cfec924fa2ea9c65af8eeca"));
+                sourceAssetDependencyPaths.Add(AssetDatabase.GUIDToAssetPath("059cc3132f0336e40886300f3d2d7f12"));
                 // HDSubShaderUtilities.cs
                 sourceAssetDependencyPaths.Add(AssetDatabase.GUIDToAssetPath("713ced4e6eef4a44799a4dd59041484b"));
             }
