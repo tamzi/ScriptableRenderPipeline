@@ -63,7 +63,7 @@ RefractionModelResult RefractionModelPlane(real3 V, float3 positionWS, real3 nor
     RefractionModelResult result;
     result.dist = dist;
     result.positionWS = positionWS + R * dist;
-    result.rayWS = -V;
+    result.rayWS = R;
 
     return result;
 }
