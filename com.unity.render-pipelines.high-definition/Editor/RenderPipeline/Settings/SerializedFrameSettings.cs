@@ -20,7 +20,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public SerializedProperty diffuseGlobalDimmer;
         public SerializedProperty specularGlobalDimmer;
 
-        public SerializedProperty shaderLitMode;
+        public SerializedProperty litShaderMode;
         public SerializedProperty enableDepthPrepassWithDeferredRendering;
 
         public SerializedProperty enableTransparentPrepass;
@@ -350,7 +350,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             enableLightLayers = root.Find((FrameSettings d) => d.enableLightLayers);
             diffuseGlobalDimmer = root.Find((FrameSettings d) => d.diffuseGlobalDimmer);
             specularGlobalDimmer = root.Find((FrameSettings d) => d.specularGlobalDimmer);
-            shaderLitMode = root.Find((FrameSettings d) => d.shaderLitMode);
+            litShaderMode = root.Find((FrameSettings d) => d.shaderLitMode);
             enableDepthPrepassWithDeferredRendering = root.Find((FrameSettings d) => d.enableDepthPrepassWithDeferredRendering);
             enableTransparentPrepass = root.Find((FrameSettings d) => d.enableTransparentPrepass);
             enableMotionVectors = root.Find((FrameSettings d) => d.enableMotionVectors);
