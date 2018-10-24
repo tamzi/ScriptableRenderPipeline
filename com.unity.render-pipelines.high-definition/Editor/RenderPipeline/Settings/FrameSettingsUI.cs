@@ -5,6 +5,8 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 {
     partial class FrameSettingsUI : BaseUI<SerializedFrameSettings>
     {
+        const int k_AnimBoolsSize = 5;
+
         public AnimBool isSectionExpandedRenderingPasses { get { return m_AnimBools[0]; } }
         public AnimBool isSectionExpandedLightingSettings { get { return m_AnimBools[1]; } }
         public AnimBool isSectionExpandedRenderingSettings { get { return m_AnimBools[2]; } }
@@ -14,7 +16,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public LightLoopSettingsUI lightLoopSettings = new LightLoopSettingsUI();
 
         public FrameSettingsUI()
-            : base(6)
+            : base(k_AnimBoolsSize)
         {
         }
 
