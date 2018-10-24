@@ -33,6 +33,9 @@ namespace UnityEditor.ShaderGraph
         public const string PositionSlotName = "Position";
         public const string SpecularAAScreenSpaceVarianceSlotName = "SpecularAAScreenSpaceVariance";
         public const string SpecularAAThresholdSlotName = "SpecularAAThreshold";
+        //Hair Specific
+        public const string SpecularTintSlotName = "SpecularTint";
+        public const string SecondarySpecularTintSlotName = "SecondarySpecularTint";
 
         public const int PositionSlotId = 0;
         public const int AlbedoSlotId = 1;
@@ -60,8 +63,8 @@ namespace UnityEditor.ShaderGraph
         public const int RefractionIndexSlotId = 23;
         public const int RefractionColorSlotId = 24;
         public const int RefractionDistanceSlotId = 25;
-        public const int DistortionSlotId = 26;
-        public const int DistortionBlurSlotId = 27;
+        public const int SpecularTintSlotId = 26;
+        public const int SecondarySpecularTintSlotId = 27;
 
         public enum MaterialType
         {
@@ -97,9 +100,11 @@ namespace UnityEditor.ShaderGraph
             AlphaThresholdDepthPrepass = 1 << AlphaThresholdDepthPrepassSlotId,
             AlphaThresholdDepthPostpass = 1 << AlphaThresholdDepthPostpassSlotId,
             Anisotropy = 1 << AnisotropySlotId,
+            SpecularTint = 1 << SpecularTintSlotId,
+            SecondarySpecularTint = 1 << SecondarySpecularTintSlotId
         }
 
-        const SlotMask KajiyaKaySlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass;
+        const SlotMask KajiyaKaySlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass | SlotMask.SpecularTint | SlotMask.SecondarySpecularTint;
         const SlotMask MarschnerlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass;
 
         // This could also be a simple array. For now, catch any mismatched data.
@@ -499,6 +504,16 @@ namespace UnityEditor.ShaderGraph
             {
                 AddSlot(new Vector1MaterialSlot(AmbientOcclusionSlotId, AmbientOcclusionDisplaySlotName, AmbientOcclusionSlotName, SlotType.Input, 1.0f, ShaderStageCapability.Fragment));
                 validSlots.Add(AmbientOcclusionSlotId);
+            }
+            if (MaterialTypeUsesSlotMask(SlotMask.SpecularTint))
+            {
+                AddSlot(new ColorRGBMaterialSlot(SpecularTintSlotId, SpecularTintSlotName, SpecularTintSlotName, SlotType.Input, Color.white, ColorMode.Default, ShaderStageCapability.Fragment));
+                validSlots.Add(SpecularTintSlotId);
+            }
+            if (MaterialTypeUsesSlotMask(SlotMask.SecondarySpecularTint))
+            {
+                AddSlot(new ColorRGBMaterialSlot(SecondarySpecularTintSlotId, SecondarySpecularTintSlotName, SecondarySpecularTintSlotName, SlotType.Input, Color.white, ColorMode.Default, ShaderStageCapability.Fragment));
+                validSlots.Add(SecondarySpecularTintSlotId);
             }
             if (MaterialTypeUsesSlotMask(SlotMask.Alpha))
             {
