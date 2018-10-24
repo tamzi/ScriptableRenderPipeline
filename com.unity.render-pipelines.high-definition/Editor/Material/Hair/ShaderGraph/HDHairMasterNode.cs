@@ -100,6 +100,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         const SlotMask KajiyaKaySlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass;
+        const SlotMask MarschnerlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass;
 
         // This could also be a simple array. For now, catch any mismatched data.
         SlotMask GetActiveSlotMask()
@@ -108,9 +109,10 @@ namespace UnityEditor.ShaderGraph
             {
                 case MaterialType.KajiyaKay:
                     return KajiyaKaySlotMask;
-
+                case MaterialType.Marschner:
+                    return MarschnerlotMask;
                 default:
-                    return SlotMask.None;
+                    return KajiyaKaySlotMask;
             }
         }
 
