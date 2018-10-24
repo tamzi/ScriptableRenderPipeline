@@ -45,7 +45,7 @@ namespace UnityEditor.ShaderGraph
         public const int IridescenceMaskSlotId = 8;
         public const int IridescenceThicknessSlotId = 9;
         public const int SpecularColorSlotId = 10;
-        public const int CoatMaskSlotId = 11;
+        public const int SpecularOcclusionSlotId = 11;
         public const int MetallicSlotId = 12;
         public const int EmissionSlotId = 13;
         public const int SmoothnessSlotId = 14;

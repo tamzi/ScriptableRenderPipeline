@@ -60,7 +60,7 @@ Pass
     #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
     #define OUTPUT_SPLIT_LIGHTING
     #endif
-
+    
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Wind.hlsl"
 
@@ -226,7 +226,7 @@ $include("SharedCode.template.hlsl")
 #endif
 
         // Propagate the geometry normal
-        surfaceData.geomNormalWS = input.worldToTangent[2];
+        surfaceData.geomNormalWS = fragInputs.worldToTangent[2];
 
 #ifdef DEBUG_DISPLAY
         if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)

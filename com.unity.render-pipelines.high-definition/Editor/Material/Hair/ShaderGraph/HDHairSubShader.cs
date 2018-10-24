@@ -8,6 +8,51 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 {
     public class HDHairSubShader : IHDHairSubShader
     {
+        Pass m_PassMETA = new Pass()
+        {
+            Name = "META",
+            LightMode = "Meta",
+            TemplateName = "HDHairPass.template",
+            MaterialName = "Hair",
+            ShaderPassName = "SHADERPASS_LIGHT_TRANSPORT",
+            CullOverride = "Cull Off",
+            Includes = new List<string>()
+            {
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassLightTransport.hlsl\"",
+            },
+            RequiredFields = new List<string>()
+            {
+                "AttributesMesh.normalOS",
+                "AttributesMesh.tangentOS",     // Always present as we require it also in case of Variants lighting
+                "AttributesMesh.uv0",
+                "AttributesMesh.uv1",
+                "AttributesMesh.color",
+                "AttributesMesh.uv2",           // SHADERPASS_LIGHT_TRANSPORT always uses uv2
+            },
+            PixelShaderSlots = new List<int>()
+            {
+                HDHairMasterNode.AlbedoSlotId,
+                HDHairMasterNode.SpecularOcclusionSlotId,
+                HDHairMasterNode.NormalSlotId,
+                HDHairMasterNode.SmoothnessSlotId,
+                HDHairMasterNode.AmbientOcclusionSlotId,
+                HDHairMasterNode.SpecularColorSlotId,
+                HDHairMasterNode.DiffusionProfileSlotId,
+                HDHairMasterNode.SubsurfaceMaskSlotId,
+                HDHairMasterNode.ThicknessSlotId,
+                HDHairMasterNode.TangentSlotId,
+                HDHairMasterNode.AnisotropySlotId,
+                HDHairMasterNode.EmissionSlotId,
+                HDHairMasterNode.AlphaSlotId,
+                HDHairMasterNode.AlphaThresholdSlotId,
+            },
+            VertexShaderSlots = new List<int>()
+            {
+                //FabricMasterNode.PositionSlotId
+            },
+            UseInPreview = false
+        };
+
         Pass m_PassShadowCaster = new Pass()
         {
             Name = "ShadowCaster",
@@ -24,7 +69,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             },
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
             },
             PixelShaderSlots = new List<int>()
             {
@@ -52,7 +97,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             ColorMaskOverride = "ColorMask 0",
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
             },
             PixelShaderSlots = new List<int>()
             {
@@ -64,35 +109,6 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 HDHairMasterNode.PositionSlotId
             },
             UseInPreview = true
-        };
-
-        Pass m_PassDepthOnly = new Pass()
-        {
-            Name = "DepthOnly",
-            LightMode = "DepthOnly",
-            TemplateName = "HDHairPass.template",
-            MaterialName = "Hair",
-            ShaderPassName = "SHADERPASS_DEPTH_ONLY",
-            ExtraDefines = new List<string>()
-            {
-                "#pragma multi_compile _ WRITE_NORMAL_BUFFER",
-                "#pragma multi_compile _ WRITE_MSAA_DEPTH"
-            },
-            ColorMaskOverride = "ColorMask 0",
-            Includes = new List<string>()
-            {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
-            },
-            PixelShaderSlots = new List<int>()
-            {
-                HDHairMasterNode.AlphaSlotId,
-                HDHairMasterNode.AlphaThresholdSlotId
-            },
-            VertexShaderSlots = new List<int>()
-            {
-                HDHairMasterNode.PositionSlotId
-            },
-            UseInPreview = false
         };
 
         Pass m_PassMotionVectors = new Pass()
@@ -109,11 +125,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             },
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassVelocity.hlsl\"",
-            },
-            RequiredFields = new List<string>()
-            {
-                "FragInputs.positionRWS",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassVelocity.hlsl\"",
             },
             StencilOverride = new List<string>()
             {
@@ -125,6 +137,24 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 "   Comp Always",
                 "   Pass Replace",
                 "}"
+            },
+            RequiredFields = new List<string>()
+            {
+                "AttributesMesh.normalOS",
+                "AttributesMesh.tangentOS",     // Always present as we require it also in case of Variants lighting
+                "AttributesMesh.uv0",
+                "AttributesMesh.uv1",
+                "AttributesMesh.color",
+                "AttributesMesh.uv2",           // SHADERPASS_LIGHT_TRANSPORT always uses uv2
+                "AttributesMesh.uv3",           // DEBUG_DISPLAY
+
+                "FragInputs.worldToTangent",
+                "FragInputs.positionRWS",
+                "FragInputs.texCoord0",
+                "FragInputs.texCoord1",
+                "FragInputs.texCoord2",
+                "FragInputs.texCoord3",
+                "FragInputs.color",
             },
             PixelShaderSlots = new List<int>()
             {
@@ -154,12 +184,42 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             },
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
             },
             PixelShaderSlots = new List<int>()
             {
                 HDHairMasterNode.AlphaSlotId,
                 HDHairMasterNode.AlphaThresholdDepthPrepassSlotId,
+            },
+            VertexShaderSlots = new List<int>()
+            {
+                HDHairMasterNode.PositionSlotId
+            },
+            UseInPreview = true
+        };
+
+        Pass m_PassTransparentDepthPostpass = new Pass()
+        {
+            Name = "TransparentDepthPostpass",
+            LightMode = "TransparentDepthPostpass",
+            TemplateName = "HDHairPass.template",
+            MaterialName = "Hair",
+            ShaderPassName = "SHADERPASS_DEPTH_ONLY",
+            BlendOverride = "Blend One Zero",
+            ZWriteOverride = "ZWrite On",
+            ColorMaskOverride = "ColorMask 0",
+            ExtraDefines = new List<string>()
+            {
+                "#define CUTOFF_TRANSPARENT_DEPTH_POSTPASS",
+            },
+            Includes = new List<string>()
+            {
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
+            },
+            PixelShaderSlots = new List<int>()
+            {
+                HDHairMasterNode.AlphaSlotId,
+                HDHairMasterNode.AlphaThresholdDepthPostpassSlotId,
             },
             VertexShaderSlots = new List<int>()
             {
@@ -191,7 +251,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             },
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassForward.hlsl\"",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassForward.hlsl\"",
             },
             RequiredFields = new List<string>()
             {
@@ -223,10 +283,74 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             UseInPreview = true
         };
 
-        Pass m_PassForward = new Pass()
+        Pass m_PassDepthForwardOnly = new Pass()
+        {
+            TemplateName = "HDHairPass.template",
+            MaterialName = "Hair",
+
+            Name = "Depth prepass",
+            LightMode = "DepthForwardOnly",
+
+
+            ZWriteOverride = "ZWrite On",
+
+            StencilOverride = new List<string>()
+            {
+                "Stencil",
+                "{",
+                "   WriteMask 16",         // [DecalsForwardOutputNormalBuffer]
+                "   Ref 16",               // [_StencilDepthPrepassRef]
+                "   Comp Always",
+                "   Pass Replace",
+                "}"
+            },
+
+            ExtraDefines = new List<string>()
+            {
+                "#define WRITE_NORMAL_BUFFER",
+                "#pragma multi_compile _ WRITE_MSAA_DEPTH"
+            },
+            ShaderPassName = "SHADERPASS_DEPTH_ONLY",
+            Includes = new List<string>()
+            {
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
+            },
+            PixelShaderSlots = new List<int>()
+            {
+                HDHairMasterNode.AlphaSlotId,
+                HDHairMasterNode.AlphaThresholdSlotId
+            },
+            RequiredFields = new List<string>()
+            {
+                "AttributesMesh.normalOS",
+                "AttributesMesh.tangentOS",     // Always present as we require it also in case of Variants lighting
+                "AttributesMesh.uv0",
+                "AttributesMesh.uv1",
+                "AttributesMesh.color",
+                "AttributesMesh.uv2",           // SHADERPASS_LIGHT_TRANSPORT always uses uv2
+                "AttributesMesh.uv3",           // DEBUG_DISPLAY
+
+                "FragInputs.worldToTangent",
+                "FragInputs.positionRWS",
+                "FragInputs.texCoord0",
+                "FragInputs.texCoord1",
+                "FragInputs.texCoord2",
+                "FragInputs.texCoord3",
+                "FragInputs.color",
+            },
+
+            VertexShaderSlots = new List<int>()
+            {
+                HDHairMasterNode.PositionSlotId
+            },
+
+            UseInPreview = false
+        };
+
+        Pass m_PassForwardOnly = new Pass()
         {
             Name = "Forward",
-            LightMode = "Forward",
+            LightMode = "ForwardOnly",
             TemplateName = "HDHairPass.template",
             MaterialName = "Hair",
             ShaderPassName = "SHADERPASS_FORWARD",
@@ -237,38 +361,52 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 "#pragma multi_compile _ DIRLIGHTMAP_COMBINED",
                 "#pragma multi_compile _ DYNAMICLIGHTMAP_ON",
                 "#pragma multi_compile _ SHADOWS_SHADOWMASK",
+
                 "#pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT",
                 "#define LIGHTLOOP_TILE_PASS",
+
                 "#pragma multi_compile USE_FPTL_LIGHTLIST USE_CLUSTERED_LIGHTLIST",
                 "#pragma multi_compile PUNCTUAL_SHADOW_LOW PUNCTUAL_SHADOW_MEDIUM PUNCTUAL_SHADOW_HIGH",
                 "#pragma multi_compile DIRECTIONAL_SHADOW_LOW DIRECTIONAL_SHADOW_MEDIUM DIRECTIONAL_SHADOW_HIGH"
             },
             Includes = new List<string>()
             {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassForward.hlsl\"",
+                "#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPassForward.hlsl\"",
             },
             RequiredFields = new List<string>()
             {
+                "AttributesMesh.normalOS",
+                "AttributesMesh.tangentOS",     // Always present as we require it also in case of Variants lighting
+                "AttributesMesh.uv0",
+                "AttributesMesh.uv1",
+                "AttributesMesh.color",
+                "AttributesMesh.uv2",           // SHADERPASS_LIGHT_TRANSPORT always uses uv2
+                "AttributesMesh.uv3",           // DEBUG_DISPLAY
+
                 "FragInputs.worldToTangent",
                 "FragInputs.positionRWS",
+                "FragInputs.texCoord0",
                 "FragInputs.texCoord1",
-                "FragInputs.texCoord2"
+                "FragInputs.texCoord2",
+                "FragInputs.texCoord3",
+                "FragInputs.color",
             },
             PixelShaderSlots = new List<int>()
             {
                 HDHairMasterNode.AlbedoSlotId,
+                HDHairMasterNode.SpecularOcclusionSlotId,
                 HDHairMasterNode.NormalSlotId,
-                HDHairMasterNode.BentNormalSlotId,
-                HDHairMasterNode.TangentSlotId,
-                HDHairMasterNode.SubsurfaceMaskSlotId,
-                HDHairMasterNode.ThicknessSlotId,
-                HDHairMasterNode.DiffusionProfileSlotId,
                 HDHairMasterNode.SmoothnessSlotId,
                 HDHairMasterNode.AmbientOcclusionSlotId,
+                HDHairMasterNode.SpecularColorSlotId,
+                HDHairMasterNode.DiffusionProfileSlotId,
+                HDHairMasterNode.SubsurfaceMaskSlotId,
+                HDHairMasterNode.ThicknessSlotId,
+                HDHairMasterNode.TangentSlotId,
+                HDHairMasterNode.AnisotropySlotId,
+                HDHairMasterNode.EmissionSlotId,
                 HDHairMasterNode.AlphaSlotId,
                 HDHairMasterNode.AlphaThresholdSlotId,
-                HDHairMasterNode.SpecularAAScreenSpaceVarianceSlotId,
-                HDHairMasterNode.SpecularAAThresholdSlotId,
             },
             VertexShaderSlots = new List<int>()
             {
@@ -311,36 +449,6 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                     pass.CullOverride = null;
                 }
             }
-        };
-
-        Pass m_PassTransparentDepthPostpass = new Pass()
-        {
-            Name = "TransparentDepthPostpass",
-            LightMode = "TransparentDepthPostpass",
-            TemplateName = "HDHairPass.template",
-            MaterialName = "Hair",
-            ShaderPassName = "SHADERPASS_DEPTH_ONLY",
-            BlendOverride = "Blend One Zero",
-            ZWriteOverride = "ZWrite On",
-            ColorMaskOverride = "ColorMask 0",
-            ExtraDefines = new List<string>()
-            {
-                "#define CUTOFF_TRANSPARENT_DEPTH_POSTPASS",
-            },
-            Includes = new List<string>()
-            {
-                "#include \"Runtime/RenderPipeline/ShaderPass/ShaderPassDepthOnly.hlsl\"",
-            },
-            PixelShaderSlots = new List<int>()
-            {
-                HDHairMasterNode.AlphaSlotId,
-                HDHairMasterNode.AlphaThresholdDepthPostpassSlotId,
-            },
-            VertexShaderSlots = new List<int>()
-            {
-                HDHairMasterNode.PositionSlotId
-            },
-            UseInPreview = true
         };
 
         private static HashSet<string> GetActiveFieldsFromMasterNode(INode iMasterNode, Pass pass)
@@ -535,12 +643,13 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 bool transparentDepthPrepassActive = transparent && masterNode.alphaTest.isOn && masterNode.alphaTestDepthPrepass.isOn;
                 bool transparentDepthPostpassActive = transparent && masterNode.alphaTest.isOn && masterNode.alphaTestDepthPostpass.isOn;
 
+                GenerateShaderPassHair(masterNode, m_PassMETA, mode, subShader, sourceAssetDependencyPaths);
                 GenerateShaderPassHair(masterNode, m_PassShadowCaster, mode, subShader, sourceAssetDependencyPaths);
                 GenerateShaderPassHair(masterNode, m_SceneSelectionPass, mode, subShader, sourceAssetDependencyPaths);
 
                 if (opaque)
                 {
-                    GenerateShaderPassHair(masterNode, m_PassDepthOnly, mode, subShader, sourceAssetDependencyPaths);
+                    GenerateShaderPassHair(masterNode, m_PassDepthForwardOnly, mode, subShader, sourceAssetDependencyPaths);
                 }
 
                 GenerateShaderPassHair(masterNode, m_PassMotionVectors, mode, subShader, sourceAssetDependencyPaths);
@@ -550,12 +659,12 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                     GenerateShaderPassHair(masterNode, m_PassTransparentBackface, mode, subShader, sourceAssetDependencyPaths);
                 }
 
-                GenerateShaderPassHair(masterNode, m_PassForward, mode, subShader, sourceAssetDependencyPaths);
-
                 if (transparentDepthPrepassActive)
                 {
                     GenerateShaderPassHair(masterNode, m_PassTransparentDepthPrepass, mode, subShader, sourceAssetDependencyPaths);
                 }
+
+                GenerateShaderPassHair(masterNode, m_PassForwardOnly, mode, subShader, sourceAssetDependencyPaths);
 
                 if (transparentDepthPostpassActive)
                 {

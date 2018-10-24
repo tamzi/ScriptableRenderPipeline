@@ -116,7 +116,7 @@ SSSData ConvertSurfaceDataToSSSData(SurfaceData surfaceData)
 {
     SSSData sssData;
 
-    sssData.diffuseColor = surfaceData.baseColor;
+    sssData.diffuseColor = surfaceData.diffuseColor;
     sssData.subsurfaceMask = surfaceData.subsurfaceMask;
     sssData.diffusionProfile = surfaceData.diffusionProfile;
 
@@ -140,7 +140,7 @@ BSDFData ConvertSurfaceDataToBSDFData(uint2 positionSS, SurfaceData surfaceData)
     bsdfData.ambientOcclusion = surfaceData.ambientOcclusion;
     bsdfData.specularOcclusion = surfaceData.specularOcclusion;
 
-    bsdfData.diffuseColor = surfaceData.baseColor;
+    bsdfData.diffuseColor = surfaceData.diffuseColor;
 
     bsdfData.normalWS = surfaceData.normalWS;
     bsdfData.geomNormalWS = surfaceData.geomNormalWS;
@@ -242,6 +242,13 @@ PreLightData GetPreLightData(float3 V, PositionInputs posInput, inout BSDFData b
 
     GetPreIntegratedFGDGGXAndDisneyDiffuse(NdotV, preLightData.iblPerceptualRoughness, bsdfData.fresnel0, preLightData.specularFGD, preLightData.diffuseFGD, unused);
 
+    float TdotV = dot(bsdfData.tangentWS, V);
+    float BdotV = dot(bsdfData.bitangentWS, V);
+
+    preLightData.partLambdaV = GetSmithJointGGXAnisoPartLambdaV(TdotV, BdotV, NdotV, bsdfData.roughnessT, bsdfData.roughnessB);
+
+    GetGGXAnisotropicModifiedNormalAndRoughness(bsdfData.bitangentWS, bsdfData.tangentWS, N, V, bsdfData.anisotropy, preLightData.iblPerceptualRoughness, iblN, preLightData.iblPerceptualRoughness);
+
     preLightData.iblR = reflect(-V, iblN);
 
     return preLightData;
@@ -261,13 +268,13 @@ void ModifyBakedDiffuseLighting(float3 V, PositionInputs posInput, SurfaceData s
     PreLightData preLightData = GetPreLightData(V, posInput, bsdfData);
 
     // Add GI transmission contribution to bakeDiffuseLighting, we then drop backBakeDiffuseLighting (i.e it is not used anymore, this save VGPR)
-    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_FABRIC_TRANSMISSION))
+    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_HAIR_TRANSMISSION))
     {
         builtinData.bakeDiffuseLighting += builtinData.backBakeDiffuseLighting * bsdfData.transmittance;
     }
 
     // For SSS we need to take into account the state of diffuseColor 
-    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_FABRIC_SUBSURFACE_SCATTERING))
+    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_HAIR_SUBSURFACE_SCATTERING))
     {
         bsdfData.diffuseColor = GetModifiedDiffuseColorForSSS(bsdfData);
     }
@@ -372,7 +379,7 @@ DirectLighting EvaluateBSDF_Directional(LightLoopContext lightLoopContext,
                                     bsdfData, bsdfData.normalWS, V);
 }
 
-#include "FabricReference.hlsl"
+#include "../Fabric/FabricReference.hlsl"
 //-----------------------------------------------------------------------------
 // EvaluateBSDF_Punctual (supports spot, point and projector lights)
 //-----------------------------------------------------------------------------
@@ -484,16 +491,6 @@ IndirectLighting EvaluateBSDF_Env(  LightLoopContext lightLoopContext,
     float3 positionWS = posInput.positionWS;
     float weight = 1.0;
 
-#ifdef FABRIC_DISPLAY_REFERENCE_IBL
-    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_FABRIC_COTTON_WOOL))
-    {
-        envLighting = IntegrateSpecularCottonWoolIBLRef(lightLoopContext, V, preLightData, lightData, bsdfData);
-    }
-    else
-    {
-        envLighting = IntegrateSpecularSilkIBLRef(lightLoopContext, V, preLightData, lightData, bsdfData);
-    }
-#else
     float3 R = preLightData.iblR;
 
     // Note: using influenceShapeType and projectionShapeType instead of (lightData|proxyData).shapeType allow to make compiler optimization in case the type is know (like for sky)
@@ -516,17 +513,12 @@ IndirectLighting EvaluateBSDF_Env(  LightLoopContext lightLoopContext,
 
     // If it is a silk, we need to use the GGX convolution (slice0), otherwise the charlie convolution (slice1)
     int sliceIndex = 0;
-    if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_FABRIC_COTTON_WOOL))
-    {
-        sliceIndex = 1;
-    }
 
     float4 preLD = SampleEnv(lightLoopContext, lightData.envIndex, R, iblMipLevel, sliceIndex);
     weight *= preLD.a; // Used by planar reflection to discard pixel
 
     envLighting = preLightData.specularFGD * preLD.rgb;
 
-#endif
     UpdateLightingHierarchyWeights(hierarchyWeight, weight);
     envLighting *= weight * lightData.multiplier;
     lighting.specularReflected = envLighting;
