@@ -566,12 +566,16 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             {
                 case SpecularOcclusionMode.Off:
                     break;
-                case SpecularOcclusionMode.On:
-                    activeFields.Add("SpecularOcclusion");
+                case SpecularOcclusionMode.FromAO:
+                    activeFields.Add("SpecularOcclusionFromAO");
                     break;
-                case SpecularOcclusionMode.OnUseBentNormal:
-                    activeFields.Add("BentNormalSpecularOcclusion");
+                case SpecularOcclusionMode.FromAOAndBentNormal:
+                    activeFields.Add("SpecularOcclusionFromAOBentNormal");
                     break;
+                case SpecularOcclusionMode.Custom:
+                    activeFields.Add("SpecularOcclusionCustom");
+                    break;
+
                 default:
                     break;
             }
