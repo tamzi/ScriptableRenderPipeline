@@ -20,7 +20,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     [Serializable]
     public class RenderPipelineSettings
     {
-        public enum SupportedRenderingPath
+        public enum SupportedLitShaderMode
         {
             ForwardOnly = 1,
             DeferredOnly = 2,
@@ -37,7 +37,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public bool supportVolumetrics = true;
         public bool increaseResolutionOfVolumetrics = false;
         public bool supportLightLayers = false;
-        public SupportedRenderingPath supportedRenderingPath = SupportedRenderingPath.Both;
+        public SupportedLitShaderMode supportedRenderingPath = SupportedLitShaderMode.Both;
 
         // Engine
         [FormerlySerializedAs("supportDBuffer")]
@@ -56,6 +56,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
 
         // Lock MSAA support according to renderingPath for the moment
-        public bool supportMSAA { get { return m_SupportMSAA && supportedRenderingPath == SupportedRenderingPath.ForwardOnly; } }
+        public bool supportMSAA { get { return m_SupportMSAA && supportedRenderingPath == SupportedLitShaderMode.ForwardOnly; } }
     }
 }

@@ -95,7 +95,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 
             // MSAA is an option that is only available in full forward but Camera can be set in Full Forward only. Thus MSAA have no dependency currently
             //Note: do not use SerializedProperty.enumValueIndex here as this enum not start at 0 as it is used as flags.
-            bool isForwardOnly = d.supportedRenderingPath.intValue == (int)UnityEngine.Experimental.Rendering.HDPipeline.RenderPipelineSettings.SupportedRenderingPath.ForwardOnly;
+            bool isForwardOnly = d.supportedRenderingPath.intValue == (int)UnityEngine.Experimental.Rendering.HDPipeline.RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly;
             using (new EditorGUI.DisabledScope(!isForwardOnly))
             {
                 ++EditorGUI.indentLevel;

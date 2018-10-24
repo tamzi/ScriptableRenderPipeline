@@ -350,7 +350,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             RenderPipelineSettings settings = m_Asset.renderPipelineSettings;
 
-            if (settings.supportedRenderingPath != RenderPipelineSettings.SupportedRenderingPath.ForwardOnly)
+            if (settings.supportedRenderingPath != RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly)
                 m_GbufferManager.CreateBuffers();
 
             if (settings.supportDecals)

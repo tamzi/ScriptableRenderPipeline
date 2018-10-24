@@ -252,13 +252,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 switch (renderPipelineSettings.supportedRenderingPath)
                 {
-                    case RenderPipelineSettings.SupportedRenderingPath.ForwardOnly:
+                    case RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly:
                         aggregate.shaderLitMode = LitShaderMode.Forward;
                         break;
-                    case RenderPipelineSettings.SupportedRenderingPath.DeferredOnly:
+                    case RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly:
                         aggregate.shaderLitMode = LitShaderMode.Deferred;
                         break;
-                    case RenderPipelineSettings.SupportedRenderingPath.Both:
+                    case RenderPipelineSettings.SupportedLitShaderMode.Both:
                         aggregate.shaderLitMode = srcFrameSettings.shaderLitMode;
                         break;
                 }
