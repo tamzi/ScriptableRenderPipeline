@@ -10,12 +10,11 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public AnimBool isSectionExpandedRenderingSettings { get { return m_AnimBools[2]; } }
         public AnimBool isSectionExpandedXRSettings { get { return m_AnimBools[3]; } }
         public AnimBool isSectionExpandedXRSupported { get { return m_AnimBools[4]; } }
-        public AnimBool isSectionExpandedUseForwardOnly { get { return m_AnimBools[5]; } }
 
         public LightLoopSettingsUI lightLoopSettings = new LightLoopSettingsUI();
 
         public FrameSettingsUI()
-            : base(7)
+            : base(6)
         {
         }
 
@@ -28,7 +27,6 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public override void Update()
         {
             isSectionExpandedXRSupported.target = PlayerSettings.virtualRealitySupported;
-            isSectionExpandedUseForwardOnly.target = !data.shaderLitMode.boolValue;
             lightLoopSettings.Update();
         }
     }
