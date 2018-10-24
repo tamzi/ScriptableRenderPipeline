@@ -16,7 +16,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public SerializedProperty supportVolumetrics;
         public SerializedProperty increaseResolutionOfVolumetrics;
         public SerializedProperty supportLightLayers;
-        public SerializedProperty supportedRenderingPath;
+        public SerializedProperty supportedLitShaderMode;
         
         public SerializedProperty supportDecals;
         public SerializedProperty supportMSAA;
@@ -42,7 +42,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             supportVolumetrics              = root.Find((RenderPipelineSettings s) => s.supportVolumetrics);
             increaseResolutionOfVolumetrics = root.Find((RenderPipelineSettings s) => s.increaseResolutionOfVolumetrics);
             supportLightLayers              = root.Find((RenderPipelineSettings s) => s.supportLightLayers);
-            supportedRenderingPath          = root.Find((RenderPipelineSettings s) => s.supportedRenderingPath);
+            supportedLitShaderMode          = root.Find((RenderPipelineSettings s) => s.supportedLitShaderMode);
             
             supportDecals                   = root.Find((RenderPipelineSettings s) => s.supportDecals);
             supportMSAA                     = root.Find((RenderPipelineSettings s) => s.supportMSAA);

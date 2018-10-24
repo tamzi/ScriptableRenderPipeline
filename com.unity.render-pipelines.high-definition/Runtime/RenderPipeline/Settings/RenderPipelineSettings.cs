@@ -37,7 +37,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public bool supportVolumetrics = true;
         public bool increaseResolutionOfVolumetrics = false;
         public bool supportLightLayers = false;
-        public SupportedLitShaderMode supportedRenderingPath = SupportedLitShaderMode.Both;
+        public SupportedLitShaderMode supportedLitShaderMode = SupportedLitShaderMode.Both;
 
         // Engine
         [FormerlySerializedAs("supportDBuffer")]
@@ -56,6 +56,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
 
         // Lock MSAA support according to renderingPath for the moment
-        public bool supportMSAA { get { return m_SupportMSAA && supportedRenderingPath == SupportedLitShaderMode.ForwardOnly; } }
+        public bool supportMSAA { get { return m_SupportMSAA && supportedLitShaderMode == SupportedLitShaderMode.ForwardOnly; } }
     }
 }

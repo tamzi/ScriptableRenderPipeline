@@ -91,11 +91,11 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 
             EditorGUILayout.PropertyField(d.supportLightLayers, _.GetContent("LightLayers|Enable light layers. In deferred this imply an extra render target in memory and extra cost."));
             
-            EditorGUILayout.PropertyField(d.supportedRenderingPath, _.GetContent("Supported Lit Shader Mode|Remove all the memory and shader variant of GBuffer of non used mode. The renderer cannot be switch to non selected path anymore."));
+            EditorGUILayout.PropertyField(d.supportedLitShaderMode, _.GetContent("Supported Lit Shader Mode|Remove all the memory and shader variant of GBuffer of non used mode. The renderer cannot be switch to non selected path anymore."));
 
             // MSAA is an option that is only available in full forward but Camera can be set in Full Forward only. Thus MSAA have no dependency currently
             //Note: do not use SerializedProperty.enumValueIndex here as this enum not start at 0 as it is used as flags.
-            bool isForwardOnly = d.supportedRenderingPath.intValue == (int)UnityEngine.Experimental.Rendering.HDPipeline.RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly;
+            bool isForwardOnly = d.supportedLitShaderMode.intValue == (int)UnityEngine.Experimental.Rendering.HDPipeline.RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly;
             using (new EditorGUI.DisabledScope(!isForwardOnly))
             {
                 ++EditorGUI.indentLevel;

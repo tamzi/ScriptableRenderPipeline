@@ -116,7 +116,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 FrameSettings defaultFrameSettings = GetDefaultFrameSettingsFor(owner);
                 OverridableSettingsArea area = new OverridableSettingsArea(6);
                 LitShaderMode defaultShaderLitMode;
-                switch(hdrpSettings.supportedRenderingPath)
+                switch(hdrpSettings.supportedLitShaderMode)
                 {
                     case RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly:
                         defaultShaderLitMode = LitShaderMode.Forward;
@@ -132,16 +132,16 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 }
                 
                 area.Add(p.litShaderMode, litShaderModeContent, () => p.overridesShaderLitMode, a => p.overridesShaderLitMode = a,
-                    () => !GL.wireframe && hdrpSettings.supportedRenderingPath == RenderPipelineSettings.SupportedLitShaderMode.Both,
+                    () => !GL.wireframe && hdrpSettings.supportedLitShaderMode == RenderPipelineSettings.SupportedLitShaderMode.Both,
                     defaultValue: defaultShaderLitMode);
                 area.Add(p.enableMSAA, msaaContent, () => p.overridesMSAA, a => p.overridesMSAA = a,
                     () => hdrpSettings.supportMSAA && !GL.wireframe
                     && ((p.litShaderMode.enumValueIndex == (int)LitShaderMode.Forward && p.overridesShaderLitMode || !p.overridesShaderLitMode && defaultShaderLitMode == LitShaderMode.Forward)
-                        && hdrpSettings.supportedRenderingPath == RenderPipelineSettings.SupportedLitShaderMode.Both || hdrpSettings.supportedRenderingPath == RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) ,
-                    defaultValue: defaultFrameSettings.enableMSAA && hdrpSettings.supportMSAA && !GL.wireframe && (hdrpSettings.supportedRenderingPath & RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) != 0 && (p.overridesShaderLitMode && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Forward || !p.overridesShaderLitMode && defaultFrameSettings.shaderLitMode == (int)LitShaderMode.Forward));
+                        && hdrpSettings.supportedLitShaderMode == RenderPipelineSettings.SupportedLitShaderMode.Both || hdrpSettings.supportedLitShaderMode == RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) ,
+                    defaultValue: defaultFrameSettings.enableMSAA && hdrpSettings.supportMSAA && !GL.wireframe && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) != 0 && (p.overridesShaderLitMode && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Forward || !p.overridesShaderLitMode && defaultFrameSettings.shaderLitMode == (int)LitShaderMode.Forward));
                 area.Add(p.enableDepthPrepassWithDeferredRendering, depthPrepassWithDeferredRenderingContent, () => p.overridesDepthPrepassWithDeferredRendering, a => p.overridesDepthPrepassWithDeferredRendering = a,
-                    () => (defaultFrameSettings.shaderLitMode == LitShaderMode.Deferred && !p.overridesShaderLitMode || p.overridesShaderLitMode && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred) && (hdrpSettings.supportedRenderingPath & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0,
-                    defaultValue: defaultFrameSettings.enableDepthPrepassWithDeferredRendering && (hdrpSettings.supportedRenderingPath & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0 && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred);
+                    () => (defaultFrameSettings.shaderLitMode == LitShaderMode.Deferred && !p.overridesShaderLitMode || p.overridesShaderLitMode && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred) && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0,
+                    defaultValue: defaultFrameSettings.enableDepthPrepassWithDeferredRendering && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0 && p.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred);
                 area.Add(p.enableAsyncCompute, asyncComputeContent, () => p.overridesAsyncCompute, a => p.overridesAsyncCompute = a, () => SystemInfo.supportsAsyncCompute, defaultValue: defaultFrameSettings.enableAsyncCompute);
                 area.Add(p.enableOpaqueObjects, opaqueObjectsContent, () => p.overridesOpaqueObjects, a => p.overridesOpaqueObjects = a, defaultValue: defaultFrameSettings.enableOpaqueObjects);
                 area.Add(p.enableTransparentObjects, transparentObjectsContent, () => p.overridesTransparentObjects, a => p.overridesTransparentObjects = a, defaultValue: defaultFrameSettings.enableTransparentObjects);

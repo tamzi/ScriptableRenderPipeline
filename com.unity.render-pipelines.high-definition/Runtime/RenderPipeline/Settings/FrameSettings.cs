@@ -250,7 +250,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
             else
             {
-                switch (renderPipelineSettings.supportedRenderingPath)
+                switch (renderPipelineSettings.supportedLitShaderMode)
                 {
                     case RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly:
                         aggregate.shaderLitMode = LitShaderMode.Forward;
