@@ -131,7 +131,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                         throw new System.ArgumentOutOfRangeException("Unknown ShaderLitMode");
                 }
                 
-                area.Add(p.litShaderMode, shaderLitModeContent, () => p.overridesShaderLitMode, a => p.overridesShaderLitMode = a,
+                area.Add(p.litShaderMode, litShaderModeContent, () => p.overridesShaderLitMode, a => p.overridesShaderLitMode = a,
                     () => !GL.wireframe && hdrpSettings.supportedRenderingPath == RenderPipelineSettings.SupportedRenderingPath.Both,
                     defaultValue: defaultShaderLitMode);
                 area.Add(p.enableMSAA, msaaContent, () => p.overridesMSAA, a => p.overridesMSAA = a,
