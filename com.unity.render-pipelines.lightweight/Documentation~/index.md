@@ -1,6 +1,6 @@
 # About the Lightweight Render Pipeline
 
-![Lightweight Render Pipeline in action](/Images/AssetShots/Beauty/Overview.png)
+![Lightweight Render Pipeline in action](Images/AssetShots/Beauty/Overview.png)
 
 The Lightweight Render Pipeline (LWRP) is a prebuilt Scriptable Render Pipeline, made by Unity. The technology offers graphics that are scalable to mobile platforms, and you can also use it for higher-end consoles and PCs. You’re able to achieve quick rendering at a high quality without needing compute shader technology. LWRP uses simplified, physically based Lighting and Materials.
 

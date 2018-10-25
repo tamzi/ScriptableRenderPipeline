@@ -20,7 +20,7 @@ The Inspector window contains these elements:
 * __Surface Inputs__
 * __Advanced__
 
-![Inspector for the Lit shader](/Images/Inspectors/Shaders/StdPhysicallyBased.png)
+![Inspector for the Lit shader](Images/Inspectors/Shaders/StdPhysicallyBased.png)
 
 
 

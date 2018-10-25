@@ -9,22 +9,23 @@ To read more about each step, see below.
 
 ## Creating the Lightweight Render Pipeline Asset
 
-The Scriptable Render Pipeline Asset controls the global rendering quality settings of your Project and creates the rendering pipeline instance. The rendering pipeline instance contains intermediate resources and the render pipeline implementation.
+The Scriptable Render Pipeline Asset controls the [global rendering and quality settings](lwrp-asset.md) of your Project and creates the rendering pipeline instance. The rendering pipeline instance contains intermediate resources and the render pipeline implementation.
 
-To create a Render Pipeline Asset:
+To create a Lightweight Render Pipeline Asset:
 
-1. In the Editor, go to the Project window, and navigate to a directory outside of the Scriptable Render Pipeline Folder. 
-2. Right-click in the Project window, and select __Create__ &gt; __Render Pipeline__. Select __Lightweight__. Click __Render Pipeline/Pipeline Asset__.
+1. In the Editor, go to the Project window.
+2. Right-click in the Project window, and select  __Create__ &gt; __Rendering__ > __Lightweight__ __Render Pipeline Asset__. Alternatively, navigate to the menu bar in top, and click __Assets__ > __Create__ > __Rendering__ > __Lightweight Render Pipeline Asset__.
+3. Either leave the default name for the Asset, or type a new one. You've now created a LWRP Asset.
 
-**Tip:** You can create multiple Pipeline Assets to store settings for different platforms or for different testing environments. Later, once you've started using LWRP, try to make several assets with different settings enabled. You can then swap out assets under Graphics settings and try out the combinations, to see what fits your Project or platforms best.
+**Tip:** You can create multiple pipeline Assets to store settings for different platforms or for different testing environments. Later, once you've started using LWRP, try to make several assets with different settings enabled. You can then swap out assets under Graphics settings and try out the combinations, to see what fits your Project or platforms best.
+
 
 
 ## Adding the Asset to your Graphics settings
 
-1. In the Project window, navigate to a directory outside of the _Scriptable Render Pipeline_ folder. 
-2. Right-click in the Project window, and select __Create__ > __Render Pipeline__ > __Lightweight__ > __Pipeline Asset__.
-3. Navigate to __Edit__ > __Project Settings__ > __Graphics__. 
-4. In the __Render Pipeline Settings__ field, add the Lightweight Render Pipeline Asset you created earlier.
+To use the Lightweight Render Pipeline, you have to add the newly created LWRP Asset to your Graphics settings in Unity. If you don't, Unity still tries to use the built-in render pipeline.
 
-**Tip:** Always store your new Render Pipeline Asset outside of the _Scriptable Render Pipeline_ folder. This ensures that your Lightweight settings are not lost when you merge new changes from the SRP GitHub repository.
+1. Navigate to __Edit__ > __Project Settings__ > __Graphics__. 
+2. In the __Render Pipeline Settings__ field, add the LWRP Asset you created earlier.
 
+**Note:** When you add the LWRP Asset, the available settings in LWRP immediately changes. This is because you've effectively instructed Unity to use the LWRP specific settings instead of those for the built-in render pipeline.
