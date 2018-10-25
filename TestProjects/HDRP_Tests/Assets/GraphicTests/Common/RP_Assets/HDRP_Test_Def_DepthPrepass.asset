@@ -26,7 +26,7 @@ MonoBehaviour:
     enableTransmission: 1
     enableAtmosphericScattering: 1
     enableVolumetrics: 1
-    enableReprojectionForVolumetrics: 1
+    enableReprojectionForVolumetrics: 0
     enableLightLayers: 1
     diffuseGlobalDimmer: 1
     specularGlobalDimmer: 1
