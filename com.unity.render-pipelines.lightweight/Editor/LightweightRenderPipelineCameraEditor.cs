@@ -233,7 +233,7 @@ namespace UnityEditor.Experimental.Rendering.LightweightPipeline
             // If it is we will set the int pop to be 1 which is ON and gray it out
             bool defaultDrawOfDepthTextureUI = true;
             PostProcessLayer ppl = camera.GetComponent<PostProcessLayer>();
-            var propValue = m_AdditionalCameraDataRenderDepthProp.intValue;
+            var propValue = (int)selectedDepthOption;
             if (ppl != null && ppl.isActiveAndEnabled)
             {
                 if ((propValue == 2 && !m_LightweightRenderPipeline.supportsCameraDepthTexture) || propValue == 0)
