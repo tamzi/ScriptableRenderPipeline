@@ -227,7 +227,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // When creating a new light, at the first frame, there is no AdditionalShadowData so we can't really render shadows
             m_WillRenderShadows &= m_ShadowData != null && m_ShadowData.shadowDimmer > 0;
             // If the shadow is too far away, we don't render it
-            m_WillRenderShadows &= m_Light.type == LightType.Directional || cameraDistance < m_ShadowData.shadowFadeDistance;
+            if (m_ShadowData != null)
+                m_WillRenderShadows &= m_Light.type == LightType.Directional || cameraDistance < (m_ShadowData.shadowFadeDistance);
 
             if (!m_WillRenderShadows)
                 return;
