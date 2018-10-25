@@ -35,7 +35,10 @@ namespace UnityEditor.ShaderGraph
         public const string SpecularAAThresholdSlotName = "SpecularAAThreshold";
         //Hair Specific
         public const string SpecularTintSlotName = "SpecularTint";
-        public const string SecondarySpecularTintSlotName = "SecondarySpecularTint";
+        public const string SpecularShiftSlotName = "SpecularShift";
+		public const string SecondarySpecularTintSlotName = "SecondarySpecularTint";
+        public const string SecondarySmoothnessSlotName = "SecondarySmoothness";
+        public const string SecondarySpecularShiftSlotName = "SecondarySpecularShift";
 
         public const int PositionSlotId = 0;
         public const int AlbedoSlotId = 1;
@@ -64,7 +67,10 @@ namespace UnityEditor.ShaderGraph
         public const int RefractionColorSlotId = 24;
         public const int RefractionDistanceSlotId = 25;
         public const int SpecularTintSlotId = 26;
-        public const int SecondarySpecularTintSlotId = 27;
+        public const int SpecularShiftSlotId = 27;
+        public const int SecondarySpecularTintSlotId = 28;
+        public const int SecondarySmoothnessSlotId = 29;
+        public const int SecondarySpecularShiftSlotId = 30;
 
         public enum MaterialType
         {
@@ -101,10 +107,13 @@ namespace UnityEditor.ShaderGraph
             AlphaThresholdDepthPostpass = 1 << AlphaThresholdDepthPostpassSlotId,
             Anisotropy = 1 << AnisotropySlotId,
             SpecularTint = 1 << SpecularTintSlotId,
-            SecondarySpecularTint = 1 << SecondarySpecularTintSlotId
+            SpecularShift = 1 << SpecularShiftSlotId,
+            SecondarySpecularTint = 1 << SecondarySpecularTintSlotId,
+            SecondarySmoothness = 1 << SecondarySmoothnessSlotId,
+            SecondarySpecularShift = 1 << SecondarySpecularShiftSlotId
         }
 
-        const SlotMask KajiyaKaySlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass | SlotMask.SpecularTint | SlotMask.SecondarySpecularTint;
+        const SlotMask KajiyaKaySlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass | SlotMask.SpecularTint | SlotMask.SpecularShift | SlotMask.SecondarySpecularTint | SlotMask.SecondarySmoothness | SlotMask.SecondarySpecularShift;
         const SlotMask MarschnerlotMask = SlotMask.Position | SlotMask.Albedo | SlotMask.Normal | SlotMask.BentNormal | SlotMask.Smoothness | SlotMask.Occlusion | SlotMask.Alpha | SlotMask.AlphaThreshold | SlotMask.AlphaThresholdDepthPrepass | SlotMask.AlphaThresholdDepthPostpass;
 
         // This could also be a simple array. For now, catch any mismatched data.
@@ -510,10 +519,25 @@ namespace UnityEditor.ShaderGraph
                 AddSlot(new ColorRGBMaterialSlot(SpecularTintSlotId, SpecularTintSlotName, SpecularTintSlotName, SlotType.Input, Color.white, ColorMode.Default, ShaderStageCapability.Fragment));
                 validSlots.Add(SpecularTintSlotId);
             }
+            if (MaterialTypeUsesSlotMask(SlotMask.SpecularShift))
+            {
+                AddSlot(new Vector1MaterialSlot(SpecularShiftSlotId, SpecularShiftSlotName, SpecularShiftSlotName, SlotType.Input, 0.0f, ShaderStageCapability.Fragment));
+                validSlots.Add(SpecularShiftSlotId);
+            }
             if (MaterialTypeUsesSlotMask(SlotMask.SecondarySpecularTint))
             {
                 AddSlot(new ColorRGBMaterialSlot(SecondarySpecularTintSlotId, SecondarySpecularTintSlotName, SecondarySpecularTintSlotName, SlotType.Input, Color.white, ColorMode.Default, ShaderStageCapability.Fragment));
                 validSlots.Add(SecondarySpecularTintSlotId);
+            }
+            if (MaterialTypeUsesSlotMask(SlotMask.SecondarySmoothness))
+            {
+                AddSlot(new Vector1MaterialSlot(SecondarySmoothnessSlotId, SecondarySmoothnessSlotName, SecondarySmoothnessSlotName, SlotType.Input, 0.5f, ShaderStageCapability.Fragment));
+                validSlots.Add(SecondarySmoothnessSlotId);
+            }
+            if (MaterialTypeUsesSlotMask(SlotMask.SecondarySpecularShift))
+            {
+                AddSlot(new Vector1MaterialSlot(SecondarySpecularShiftSlotId, SecondarySpecularShiftSlotName, SecondarySpecularShiftSlotName, SlotType.Input, 0.5f, ShaderStageCapability.Fragment));
+                validSlots.Add(SecondarySpecularShiftSlotId);
             }
             if (MaterialTypeUsesSlotMask(SlotMask.Alpha))
             {
