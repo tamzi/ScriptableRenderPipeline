@@ -190,12 +190,12 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             return m_RenderPipelineResources.shaders.defaultPS;
         }
 
+#if UNITY_EDITOR
         public override Material GetDefaultMaterial()
         {
             return renderPipelineEditorResources == null ? null : renderPipelineEditorResources.materials.defaultDiffuseMat;
         }
 
-#if UNITY_EDITOR
         // call to GetAutodeskInteractiveShaderXXX are only from within editor
         public override Shader GetAutodeskInteractiveShader()
         {
@@ -211,7 +211,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             return renderPipelineEditorResources == null ? null : renderPipelineEditorResources.shaderGraphs.autodeskInteractiveMasked;
         }
-#endif
 
         // Note: This function is HD specific
         public Material GetDefaultDecalMaterial()
@@ -259,6 +258,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             return null;
         }
+#endif
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
