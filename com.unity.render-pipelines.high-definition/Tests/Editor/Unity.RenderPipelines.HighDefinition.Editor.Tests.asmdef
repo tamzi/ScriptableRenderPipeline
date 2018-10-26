@@ -1,18 +1,23 @@
 {
     "name": "Unity.RenderPipelines.HighDefinition.Editor.Tests",
     "references": [
-        "Unity.RenderPipelines.HighDefinition.Editor",
-        "Unity.RenderPipelines.HighDefinition.Runtime",
         "Unity.Postprocessing.Runtime",
-        "Unity.ShaderGraph.Editor",
         "Unity.Postprocessing.Editor",
         "Unity.RenderPipelines.Core.Runtime",
-        "Unity.RenderPipelines.Core.Editor"
+        "Unity.RenderPipelines.Core.Editor",
+        "Unity.RenderPipelines.HighDefinition.Runtime",
+        "Unity.RenderPipelines.HighDefinition.Editor"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
-    "allowUnsafeCode": true
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
 }
