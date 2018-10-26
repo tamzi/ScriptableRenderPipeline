@@ -168,7 +168,7 @@ namespace UnityEditor.Experimental.Rendering.LightweightPipeline
             }
         }
 
-        public void DrawHDR()
+        void DrawHDR()
         {
             Rect controlRect = EditorGUILayout.GetControlRect(true);
             EditorGUI.BeginProperty(controlRect, Styles.allowHDR, settings.HDR);
@@ -177,7 +177,7 @@ namespace UnityEditor.Experimental.Rendering.LightweightPipeline
             EditorGUI.EndProperty();
         }
 
-        public void DrawMSAA()
+        void DrawMSAA()
         {
             Rect controlRect = EditorGUILayout.GetControlRect(true);
             EditorGUI.BeginProperty(controlRect, Styles.allowMSAA, settings.allowMSAA);

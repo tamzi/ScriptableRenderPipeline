@@ -1,6 +1,6 @@
-using UnityEditor;
+using UnityEngine.Experimental.Rendering.LightweightPipeline;
 
-namespace UnityEngine.Experimental.Rendering.LightweightPipeline
+namespace UnityEditor.Experimental.Rendering.LightweightPipeline
 {
     [CanEditMultipleObjects]
     // Disable the GUI for additional camera data

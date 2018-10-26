@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
@@ -67,7 +66,7 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
                 if (m_RequiresDepthTextureOption == CameraOverrideOption.UsePipelineSettings)
                 {
                     LightweightRenderPipelineAsset asset = GraphicsSettings.renderPipelineAsset as LightweightRenderPipelineAsset;
-                    return asset.supportsCameraOpaqueTexture;
+                    return asset.supportsCameraDepthTexture;
                 }
                 else
                 {
@@ -92,17 +91,6 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
                 }
             }
             set { m_RequiresOpaqueTextureOption = (value) ? CameraOverrideOption.On : CameraOverrideOption.Off; }
-        }
-
-        [MenuItem("CONTEXT/AdditionalCameraData/Remove Component")]
-        static void RemoveComponent(MenuCommand command)
-        {
-            if (EditorUtility.DisplayDialog("Remove Component?",
-                "Are you sure you want to remove this component? If you do, you will lose some settings.", "Remove",
-                "Cancel"))
-            {
-                Undo.DestroyObjectImmediate(command.context);
-            }
         }
 
         public void OnBeforeSerialize()
