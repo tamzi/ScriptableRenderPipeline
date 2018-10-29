@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed distortion filtering (was point filtering, now trilinear)
 - Fixed contact shadow for large distance
 - Fixed depth pyramid debug view mode
+- Fixed material tesselation's parameters "start fade distance" and "end fade distance" that were clamped while being modified.
 
 ### Changed
 - Use samplerunity_ShadowMask instead of samplerunity_samplerLightmap for shadow mask
