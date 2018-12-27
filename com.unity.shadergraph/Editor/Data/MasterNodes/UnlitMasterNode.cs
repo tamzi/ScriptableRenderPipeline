@@ -5,23 +5,27 @@ using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
+using UnityEngine.UIElements;
 
 namespace UnityEditor.ShaderGraph
 {
     [Serializable]
     [Title("Master", "Unlit")]
-    public class UnlitMasterNode : MasterNode<IUnlitSubShader>, IMayRequirePosition
+    class UnlitMasterNode : MasterNode<IUnlitSubShader>, IMayRequirePosition
     {
         public const string ColorSlotName = "Color";
         public const string AlphaSlotName = "Alpha";
         public const string AlphaClipThresholdSlotName = "AlphaClipThreshold";
+        public const string DistortionSlotName = "Distortion";
+        public const string DistortionBlurSlotName = "DistortionBlur";
         public const string PositionName = "Position";
 
         public const int ColorSlotId = 0;
         public const int AlphaSlotId = 7;
         public const int AlphaThresholdSlotId = 8;
         public const int PositionSlotId = 9;
+        public const int DistortionSlotId = 10;
+        public const int DistortionBlurSlotId = 11;
 
         [SerializeField]
         SurfaceType m_SurfaceType;
